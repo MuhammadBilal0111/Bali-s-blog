@@ -1,14 +1,22 @@
 import React from "react";
 import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
+import { MdSunny } from "react-icons/md";
 import { Link, useLocation } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { FaMoon } from "react-icons/fa6";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleTheme } from "../store/themeSlice";
 
 function Header() {
   const path = useLocation().pathname;
+  const dispatch = useDispatch();
+  const { theme } = useSelector((state) => state.theme);
   const { currentUser } = useSelector((state) => state.user);
 
+  const handleToggleTheme = () => {
+    console.log("hello");
+    dispatch(toggleTheme());
+  };
   return (
     <Navbar className="border-b-2">
       <Link
@@ -32,8 +40,13 @@ function Header() {
         <FaSearch />
       </Button>
       <div className="flex gap-2 md:order-2">
-        <Button className="lg: outline-none" color={"gray"} pill>
-          <FaMoon />
+        <Button
+          className="lg: outline-none flex items-center justify-center md:mr-7"
+          color={"gray"}
+          onClick={handleToggleTheme}
+          pill
+        >
+          {theme === "light" ? <MdSunny /> : <FaMoon />}
         </Button>
         {currentUser ? (
           <Dropdown
