@@ -11,7 +11,6 @@ import Footer from "./Components/Footer";
 import PrivateRoutes from "./Components/PrivateRoutes";
 
 function App() {
-  // return <h1 className="text-2xl">APP</h1>;
   return (
     <BrowserRouter>
       <Header />

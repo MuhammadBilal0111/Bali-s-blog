@@ -18,7 +18,6 @@ function OAuth() {
     provider.setCustomParameters({ prompt: "select_account" }); // ask for select an account
     try {
       const resultFromGoogle = await signInWithPopup(auth, provider);
-      console.log(resultFromGoogle);
       const res = await fetch("/api/auth/google", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -45,7 +44,7 @@ function OAuth() {
       outline
       onClick={handleGoogleClick}
     >
-      <span>Sign up with google</span>
+      <span>Continue with google</span>
       <FaGoogle className="w-6 h-6 ml-2" />
     </Button>
   );

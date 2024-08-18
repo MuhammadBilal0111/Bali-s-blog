@@ -14,7 +14,6 @@ function Header() {
   const { currentUser } = useSelector((state) => state.user);
 
   const handleToggleTheme = () => {
-    console.log("hello");
     dispatch(toggleTheme());
   };
   return (
