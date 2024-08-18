@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
+import PrivateRoutes from "./Components/PrivateRoutes";
 
 function App() {
   // return <h1 className="text-2xl">APP</h1>;
@@ -19,7 +20,9 @@ function App() {
         <Route path="/about" element={<About />}></Route>
         <Route path="/sign-in" element={<SignIn />}></Route>
         <Route path="/sign-up" element={<SignUp />}></Route>
-        <Route path="/dashboard" element={<Dashboard />}></Route>
+        <Route element={<PrivateRoutes />}>
+          <Route path="/dashboard" element={<Dashboard />}></Route>
+        </Route>
         <Route path="/projects" element={<Projects />}></Route>
       </Routes>
       <Footer />
