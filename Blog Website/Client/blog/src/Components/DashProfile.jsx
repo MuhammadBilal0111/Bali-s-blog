@@ -18,11 +18,25 @@ function DashProfile() {
   const [imageUrl, setImageUrl] = useState(null);
   const [ImageFileUploadProgress, setImageFileUploadProgress] = useState(null);
   const [imageFileUploadError, setImageFileUploadError] = useState(null);
+  const [formData,setFormData]=useState(null);
   const filePickerRef = useRef();
   const handleSubmit = (e) => {
     e.preventDefault();
   };
-  const handleChange = (e) => {};
+  const handleChange = (e) => {
+    // {[e.target.id]:e.target.values}
+    // setFormData({...fo})
+  };
+  const handleFormSubmitEvent=async (e)=>{
+    e.preventDefault();
+
+    const res=await fetch('api/user/update/66c31fefc521501cb4ea9fe7',{
+      method:'PUT',
+      body:{
+
+      }
+    })
+  }
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -70,7 +84,7 @@ function DashProfile() {
       <h1 className="text-4xl font-semibold my-7 text-center">
         {currentUser.data.username + "'s Profile"}
       </h1>
-      <form className="flex flex-col justify-center gap-4">
+      <form className="flex flex-col justify-center gap-4" onSubmit={handleFormSubmitEvent}>
         <input
           type="file"
           accept="images/*"

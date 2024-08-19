@@ -47,6 +47,21 @@ exports.updateUser = async (req, res, next) => {
       data,
     });
   } catch (err) {
-    console.log(err);
+    next(err);
+  }
+};
+
+exports.deleteUser = async (req, res, next) => {
+  if (req.params.userId !== String(req.user._id)) {
+    return next(new CustomErrors("You are not allowed to delete the account"));
+  }
+  try {
+    await User.findByIdAndDelete(req.params.userId);
+    res.status(200).json({
+      status: "success",
+      message: "Successfully deleted account",
+    });
+  } catch (err) {
+    next(err);
   }
 };
