@@ -13,8 +13,9 @@ const createSendResponse = (user, statusCode, res) => {
   const options = {
     maxAge: process.env.LOGIN_EXPIRES,
     httpOnly: true,
+    secure: true,
   };
-  res.cookie("jwt", options);
+  res.cookie("jwt", token, options);
   res.status(statusCode).json({
     status: "success",
     token,
@@ -87,6 +88,6 @@ exports.googleAuth = async (req, res, next) => {
       return createSendResponse(user, 201, res);
     }
   } catch (err) {
-    console.log(err);
+    next(err);
   }
 };

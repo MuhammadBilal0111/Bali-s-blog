@@ -24,7 +24,7 @@ exports.updateUser = async (req, res, next) => {
       );
     }
   }
-  if (req.body.username.match(/^[A-Za-z0-9]+$/)) {
+  if (req.body.username?.match(/^[A-Za-z0-9]+$/)) {
     return next(
       new CustomErrors("Username should not contain special characters", 401)
     );
@@ -50,7 +50,23 @@ exports.updateUser = async (req, res, next) => {
     next(err);
   }
 };
-
+exports.signOut = async (req, res, next) => {
+  if (req.params.userId !== String(req.user._id)) {
+    return next(
+      new CustomErrors("You are not allowed to sign out the account")
+    );
+  }
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, { active: false });
+    const { password, ...data } = user._doc;
+    res.status(201).json({
+      status: "success",
+      data,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
 exports.deleteUser = async (req, res, next) => {
   if (req.params.userId !== String(req.user._id)) {
     return next(new CustomErrors("You are not allowed to delete the account"));
