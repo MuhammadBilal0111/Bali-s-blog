@@ -11,7 +11,7 @@ function DashProfile() {
   const handleChange = (e) => {};
   return (
     <div className="w-full max-w-lg  mx-auto p-3">
-      <h1 className="text-4xl font-semibold my-7 text-center">Profile</h1>
+      <h1 className="text-4xl font-semibold my-7 text-center">{currentUser.data.username+"'s Profile"}</h1>
       <form className="flex flex-col justify-center gap-4">
         <div className="rounded-full w-40 h-40 cursor-pointer self-center">
           <img
