@@ -20,17 +20,22 @@ function DashSidebar() {
       <Sidebar.Items>
         <Sidebar.ItemGroup>
           <Link to="/dashboard?tab=profile">
-            <Sidebar.Item
+            <Sidebar.Item // item is a link tag <a><a></a></a>
               active={tab === "profile"}
               icon={HiUser}
               label="User"
               labelColor="dark"
+              as="div"
             >
               Profile
             </Sidebar.Item>
           </Link>
           <Link to="/dashboard/sign-out">
-            <Sidebar.Item icon={HiArrowSmRight} className="cursor-pointer">
+            <Sidebar.Item
+              icon={HiArrowSmRight}
+              className="cursor-pointer"
+              as="div"
+            >
               Sign out
             </Sidebar.Item>
           </Link>
