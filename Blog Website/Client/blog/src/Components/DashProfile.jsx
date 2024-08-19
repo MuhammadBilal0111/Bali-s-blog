@@ -41,9 +41,7 @@ function DashProfile() {
     const storage = getStorage(app);
     const fileName = new Date().getTime() + imageFile.name;
     const storageRef = ref(storage, fileName);
-    // console.log(storageRef);
     const uploadTask = uploadBytesResumable(storageRef, imageFile);
-    // console.log(uploadTask);
     uploadTask.on(
       "state_changed", // track the changes when image is uploading
       (snapshot) => {
