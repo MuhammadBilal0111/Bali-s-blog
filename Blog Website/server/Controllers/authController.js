@@ -30,22 +30,12 @@ const generatePassword = () => {
 exports.signUp = async (req, res, next) => {
   const { username, email, password, confirmPassword } = req.body;
   if (!username || !email || !password || !confirmPassword) {
-    // res.status(400).json({
-    //   status: "failed",
-    //   message: "All fields are required",
-    // });
     return next(new CustomErrors("Please fill out all fields", 400));
   }
   try {
     const user = await User.create(req.body);
-    res.status(200).json({
-      status: "success",
-      data: user,
-    });
+    createSendResponse(req, 201, res);
   } catch (err) {
-    // res.status(500).json({
-    //   message: err.message,
-    // });
     next(err);
   }
 };

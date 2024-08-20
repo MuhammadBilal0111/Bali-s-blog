@@ -57,11 +57,11 @@ exports.signOut = async (req, res, next) => {
     );
   }
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, { active: false });
-    const { password, ...data } = user._doc;
+    res.clearCookie("jwt");
+    // const user = await User.findByIdAndUpdate(req.params.id, { active: false });
+    // const { password, ...data } = user._doc;
     res.status(201).json({
       status: "success",
-      data,
     });
   } catch (err) {
     next(err);

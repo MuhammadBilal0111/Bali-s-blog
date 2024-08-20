@@ -17,6 +17,8 @@ import {
   deleteUserStart,
   deleteUserSuccess,
   deleteUseFailure,
+  signOutSuccess,
+  signOutFailure,
 } from "./../store/userSlice";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { app } from "./../firebase";
@@ -32,11 +34,27 @@ function DashProfile() {
   const [userUpdateSuccess, setUserUpdateSuccess] = useState(null);
   const [userUpdateError, setUserUpdateError] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [signout, setSignOut] = useState(null);
   const filePickerRef = useRef();
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+  const handleSignOut = async () => {
+    try {
+      const res = await fetch(`api/user/signout/${currentUser.data._id}`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      console.log(data);
+      if (res.ok) {
+        dispatch(signOutSuccess());
+      }
+    } catch (err) {
+      setSignOut(err.message);
+      dispatch(signOutFailure(err));
+    }
   };
   const handleDeleteAccount = async () => {
     setShowModal(false);
@@ -213,10 +231,7 @@ function DashProfile() {
         >
           Delete Account
         </span>
-
-        <Link>
-          <span>Sign out</span>
-        </Link>
+        <span onClick={handleSignOut}>Sign out</span>
       </div>
       {userUpdateSuccess && (
         <Alert color={"success"}>{userUpdateSuccess}</Alert>
