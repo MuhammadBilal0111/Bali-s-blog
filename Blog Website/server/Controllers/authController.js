@@ -34,7 +34,7 @@ exports.signUp = async (req, res, next) => {
   }
   try {
     const user = await User.create(req.body);
-    createSendResponse(req, 201, res);
+    createSendResponse(user, 201, res);
   } catch (err) {
     next(err);
   }

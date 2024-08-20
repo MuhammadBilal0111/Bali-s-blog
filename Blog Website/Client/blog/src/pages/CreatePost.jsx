@@ -7,6 +7,7 @@ import "react-quill/dist/quill.snow.css";
 function CreatePost() {
   const [value, setValue] = useState("");
   const handleSubmitForm = () => {};
+  const handleChange = () => {};
   return (
     <div className="p-3 min-h-screen min-w-3xl mx-auto">
       <h1 className="text-center text-3xl font-bold my-7">Create Post</h1>
@@ -26,7 +27,7 @@ function CreatePost() {
             <option value="uncategorized">Select a category</option>
             <option value="reactjs">React JS</option>
             <option value="nextjs">Next JS</option>
-            <option value="jsavascript">JavaScript</option>
+            <option value="javascript">JavaScript</option>
           </Select>
         </div>
         <div className="flex gap-4 items-center p-5 border-2 border-dashed">
@@ -35,7 +36,11 @@ function CreatePost() {
             accept="images/*"
             className="flex-1"
           ></TextInput>
-          <Button gradientDuoTone={"purpleToPink"} outline>
+          <Button
+            onClick={handleImage}
+            gradientDuoTone={"purpleToPink"}
+            outline
+          >
             Upload Image
           </Button>
         </div>
