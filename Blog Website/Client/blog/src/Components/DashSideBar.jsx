@@ -54,7 +54,7 @@ function DashSidebar() {
               Profile
             </Sidebar.Item>
           </Link>
-          <Link>
+          <Link to={"/signout"}>
             <Sidebar.Item
               icon={HiArrowSmRight}
               className="cursor-pointer"

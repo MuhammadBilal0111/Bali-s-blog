@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { TextInput, Button, Alert, Modal } from "flowbite-react";
+import { TextInput, Button, Alert, Modal, Spinner } from "flowbite-react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import {
@@ -24,7 +24,7 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { app } from "./../firebase";
 
 function DashProfile() {
-  const { currentUser, error } = useSelector((state) => state.user);
+  const { currentUser, error, loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [ImageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -219,9 +219,35 @@ function DashProfile() {
           placeholder="Password"
           onChange={handleChange}
         ></TextInput>
-        <Button type="submit" gradientDuoTone={"purpleToBlue"} outline>
+
+        <Button
+          type="submit"
+          gradientDuoTone={"purpleToBlue"}
+          outline
+          className="flex gap-3"
+          disabled={loading || imageFileUploading}
+        >
+          {loading && (
+            <Spinner
+              color="info"
+              aria-label="Info spinner example"
+              className="mx-3"
+            />
+          )}
           Update
         </Button>
+        {currentUser.data.role === "admin" && (
+          <Link to="/create-post">
+            <Button
+              type="button"
+              gradientDuoTone={"purpleToPink"}
+              outline
+              className="w-full"
+            >
+              Create a Post
+            </Button>
+          </Link>
+        )}
       </form>
       <div className="flex justify-between text-red-700 mt-5">
         <span
