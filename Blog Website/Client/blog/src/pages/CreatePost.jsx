@@ -1,7 +1,14 @@
 import React from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { TextInput, Button, Select, FileInput, Alert } from "flowbite-react";
+import {
+  TextInput,
+  Button,
+  Select,
+  FileInput,
+  Alert,
+  Spinner,
+} from "flowbite-react";
 import { useState } from "react";
 import { app } from "./../firebase";
 import {
@@ -16,16 +23,46 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
 function CreatePost() {
-  const [value, setValue] = useState("");
   const [file, setFile] = useState(null);
+  const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState(null);
   const [formData, setForm] = useState({});
   const [ImageFileUploadProgress, setImageFileUploadProgress] = useState(null);
   const [imageFileUploadError, setImageFileUploadError] = useState(null);
   const [imageFileUploading, setImageFileUploading] = useState(false);
+  const [publishError, setPublishError] = useState(null);
+  const [dataLoading, setDataLoading] = useState(false);
+  const [dataSuccess, setDataSuccess] = useState(false);
+  console.log(formData);
 
-  const handleSubmitForm = () => {};
+  const handleSubmitForm = async (e) => {
+    e.preventDefault();
+    try {
+      setDataSuccess(false);
+
+      setDataLoading(true);
+      const res = await fetch("/api/post/create-post", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      // console.log(data);
+      setDataLoading(false);
+      if (!res.ok) {
+        setPublishError(data.message);
+      } else {
+        setDataSuccess(true);
+        navigate(`/post/${data.post.slug}`);
+        setPublishError(null);
+      }
+    } catch (err) {
+      setDataLoading(false);
+      setPublishError("Something Went Wrong");
+    }
+  };
   const handleUploadImage = async () => {
     try {
       setImageFileUploadError(null);
@@ -67,9 +104,9 @@ function CreatePost() {
       console.log(err);
     }
   };
-  console.log(formData, imageUrl);
-  const handleImageChange = () => {};
-  const handleChange = () => {};
+  const handleChange = (e) => {
+    setForm({ ...formData, [e.target.id]: e.target.value });
+  };
   return (
     <div className="p-3 min-h-screen mx-auto min-w-7">
       <h1 className="text-center text-3xl font-bold my-7">Create Post</h1>
@@ -83,9 +120,10 @@ function CreatePost() {
             id="title"
             className="flex-1"
             placeholder="Title"
+            onChange={handleChange}
             required
           ></TextInput>
-          <Select id="category" placeholder="Select a category" required>
+          <Select id="category" onChange={handleChange} required>
             <option value="uncategorized">Select a category</option>
             <option value="reactjs">React JS</option>
             <option value="nextjs">Next JS</option>
@@ -133,13 +171,32 @@ function CreatePost() {
         <ReactQuill
           className="h-72 mb-14"
           theme="snow"
-          value={value}
           placeholder="Write Something..."
-          onChange={setValue}
+          onChange={(value) => {
+            setForm({ ...formData, content: value });
+          }}
         />
         <Button className="w-full" type="submit" gradientDuoTone="purpleToPink">
+          {dataLoading && (
+            <Spinner
+              className="mx-3"
+              size={"md"}
+              color="info"
+              aria-label="Info spinner example"
+            />
+          )}
           Publish
         </Button>
+        {publishError && (
+          <Alert className="mt-4" color={"failure"}>
+            {publishError}
+          </Alert>
+        )}
+        {dataSuccess && (
+          <Alert className="mt-2" color={"gray"}>
+            Post Successfully Published!
+          </Alert>
+        )}
       </form>
     </div>
   );
