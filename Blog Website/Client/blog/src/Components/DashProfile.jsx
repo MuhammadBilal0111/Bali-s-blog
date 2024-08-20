@@ -47,7 +47,6 @@ function DashProfile() {
         method: "POST",
       });
       const data = await res.json();
-      console.log(data);
       if (res.ok) {
         dispatch(signOutSuccess());
       }
@@ -231,7 +230,9 @@ function DashProfile() {
         >
           Delete Account
         </span>
-        <span onClick={handleSignOut}>Sign out</span>
+        <span className="cursor-pointer my-2" onClick={handleSignOut}>
+          Sign out
+        </span>
       </div>
       {userUpdateSuccess && (
         <Alert color={"success"}>{userUpdateSuccess}</Alert>

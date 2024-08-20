@@ -2,14 +2,14 @@ const User = require("./../Model/userModel");
 const CustomErrors = require("../Utils/CustomErrors");
 const jwt = require("jsonwebtoken");
 
-const signToken = (id) => {
-  return jwt.sign({ id }, process.env.SECRET_STR, {
+const signToken = (id, role) => {
+  return jwt.sign({ id, role }, process.env.SECRET_STR, {
     expiresIn: process.env.LOGIN_EXPIRES,
   });
 };
 const createSendResponse = (user, statusCode, res) => {
   const { password: pass, ...data } = user._doc; // ...data==>...rest
-  const token = signToken(user._id);
+  const token = signToken(user._id, user.role);
   const options = {
     maxAge: process.env.LOGIN_EXPIRES,
     httpOnly: true,
@@ -72,6 +72,7 @@ exports.googleAuth = async (req, res, next) => {
         email,
         password: randomPassword,
         confirmPassword: randomPassword,
+        role: "user",
         profilePicture: googlePhotoUrl,
       });
       const user = await User.create(newUser);
