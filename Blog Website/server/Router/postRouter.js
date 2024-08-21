@@ -5,5 +5,6 @@ const app = express();
 const postRouter = express.Router();
 
 postRouter.route("/create-post").post(verifyUser, postController.createPost);
+postRouter.route("/get-posts").get(postController.getPosts);
 
 module.exports = postRouter;
