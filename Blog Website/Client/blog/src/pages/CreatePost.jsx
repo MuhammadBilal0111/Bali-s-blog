@@ -11,11 +11,6 @@ import {
 } from "flowbite-react";
 import { useState } from "react";
 import { app } from "./../firebase";
-import {
-  updateStart,
-  updateSuccess,
-  updateFailure,
-} from "./../store/userSlice";
 import { CircularProgressbar } from "react-circular-progressbar";
 import {
   getDownloadURL,
@@ -35,7 +30,6 @@ function CreatePost() {
   const [publishError, setPublishError] = useState(null);
   const [dataLoading, setDataLoading] = useState(false);
   const [dataSuccess, setDataSuccess] = useState(false);
-  console.log(formData);
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
@@ -49,7 +43,6 @@ function CreatePost() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      // console.log(data);
       setDataLoading(false);
       if (!res.ok) {
         setPublishError(data.message);
@@ -101,7 +94,6 @@ function CreatePost() {
     } catch (err) {
       setImageFileUploadError("Image Upload failed");
       setImageFileUploadProgress(null);
-      console.log(err);
     }
   };
   const handleChange = (e) => {

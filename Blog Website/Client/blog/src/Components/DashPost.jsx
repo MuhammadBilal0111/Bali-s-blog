@@ -9,17 +9,22 @@ function DashPost() {
   const [userPosts, setUserPosts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState("");
-
+  const [showMore, setShowMore] = useState(false);
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
     const fetchPosts = async () => {
       try {
         const res = await fetch(
-          `api/post/get-posts?userId=${currentUser.data._id}`
+          `/api/post/get-posts?userId=${currentUser.data._id}`
         );
         const response = await res.json();
         if (res.ok) {
+          if (response.data.posts.length < 9) {
+            setShowMore(false);
+          } else {
+            setShowMore(true);
+          }
           setUserPosts(response.data?.posts);
         }
       } catch (err) {
@@ -33,6 +38,28 @@ function DashPost() {
       controller.abort();
     };
   }, [currentUser.data._id]);
+
+  const handleShowMore = async () => {
+    const startIndex = userPosts.length;
+    try {
+      const res = await fetch(
+        `/api/post/get-posts?userId=${currentUser.data._id}&startIndex=${startIndex}`
+      );
+      const response = await res.json();
+      console.log(response.data.posts);
+      if (res.ok) {
+        setUserPosts((prevPosts) => [...prevPosts, ...response.data.posts]);
+        {
+          console.log(userPosts.length);
+        }
+        if (response.data.posts.length < 9) {
+          setShowMore(false);
+        }
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
   const handleDeletePost = async () => {
     setShowModal(false);
     try {
@@ -60,7 +87,7 @@ function DashPost() {
     <div className="table-auto md:mx-auto  p-3 overflow-x-scroll scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-400 dark:scrollbar-track-slate-800 dark:scrollbar-thumb-slate-500">
       {userPosts.length > 0 && currentUser.data.role === "admin" ? (
         <>
-          <Table hoverable className="shadow-md w-full">
+          <Table hoverable className="shadow-md w-full mt-3">
             <Table.Head>
               <Table.HeadCell>Date Updated</Table.HeadCell>
               <Table.HeadCell>Post Image</Table.HeadCell>
@@ -118,10 +145,20 @@ function DashPost() {
               );
             })}
           </Table>
+          {showMore && (
+            <button
+              className="w-full text-lg hover:underline mx-auto my-4 cursor-pointer text-md text-teal-500"
+              onClick={handleShowMore}
+            >
+              Show More
+            </button>
+          )}
         </>
       ) : (
         <div>
-          <h1>There is no post</h1>
+          <h1 className="text-center text-gray-200 text-lg ">
+            There is no post
+          </h1>
         </div>
       )}
       {showModal && (
