@@ -62,11 +62,10 @@ function DashSidebar() {
                 labelColor="dark"
                 as="div"
               >
-                Profile
+                Posts
               </Sidebar.Item>
             </Link>
           )}
-
           <Link to={"/signout"}>
             <Sidebar.Item
               icon={HiArrowSmRight}

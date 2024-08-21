@@ -20,8 +20,8 @@ function Dashboard() {
         <div>
           <SideBar />
         </div>
-        <div className="w-full">{tab === "profile" && <DashProfile />}</div>
-        <div className="w-full">{tab === "post" && <DashPost />}</div>
+        {tab === "profile" && <DashProfile />}
+        {tab === "post" && <DashPost />}
       </div>
     </>
   );

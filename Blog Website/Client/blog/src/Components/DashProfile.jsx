@@ -151,7 +151,7 @@ function DashProfile() {
     );
   };
   return (
-    <div className="w-full max-w-lg  mx-auto p-3">
+    <div className="w-full max-w-lg flex-1 mx-auto p-3">
       <h1 className="text-4xl font-semibold my-7 text-center">
         {currentUser.data.username + "'s Profile"}
       </h1>
