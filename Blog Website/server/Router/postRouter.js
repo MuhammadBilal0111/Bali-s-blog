@@ -6,5 +6,8 @@ const postRouter = express.Router();
 
 postRouter.route("/create-post").post(verifyUser, postController.createPost);
 postRouter.route("/get-posts").get(postController.getPosts);
+postRouter
+  .route("/delete-posts/:postId/:userId")
+  .delete(verifyUser, postController.deletePost);
 
 module.exports = postRouter;

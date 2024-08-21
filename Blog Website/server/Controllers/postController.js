@@ -79,3 +79,20 @@ exports.getPosts = async (req, res, next) => {
     return next(new CustomErrors(err, 404));
   }
 };
+exports.deletePost = async (req, res, next) => {
+  console.log(req.query);
+  if (req.user.role !== "admin" && req.user.id !== req.params.userId) {
+    return next(
+      new CustomErrors("You are not allowed to delete the posts", 403)
+    );
+  }
+  try {
+    await Post.findByIdAndDelete(req.params.postId);
+    res.status(200).json({
+      status: "success",
+      message: "Post has been deleted successfully!",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
