@@ -68,8 +68,8 @@ exports.signOut = async (req, res, next) => {
   }
 };
 exports.deleteUser = async (req, res, next) => {
-  if (req.params.userId !== String(req.user._id)) {
-    return next(new CustomErrors("You are not allowed to delete the account"));
+  if (req.user.role === "admin" && req.params.userId !== String(req.user._id)) {
+    return next(new CustomErrors("You are not allowed to delete the account",403));
   }
   try {
     await User.findByIdAndDelete(req.params.userId);
