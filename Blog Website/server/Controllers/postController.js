@@ -80,7 +80,6 @@ exports.getPosts = async (req, res, next) => {
   }
 };
 exports.deletePost = async (req, res, next) => {
-  console.log(req.query);
   if (req.user.role !== "admin" && req.user.id !== req.params.userId) {
     return next(
       new CustomErrors("You are not allowed to delete the posts", 403)
@@ -91,6 +90,38 @@ exports.deletePost = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       message: "Post has been deleted successfully!",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+exports.updatePost = async (req, res, next) => {
+  if (req.user.role !== "admin" && req.params.userId !== req.user.id) {
+    return next(
+      new CustomErrors("You are not allowed to delete this post", 403)
+    );
+  }
+  try {
+    const newPost = await Post.findByIdAndUpdate(
+      req.params.postId,
+      {
+        $set: {
+          title: req.body.title,
+          slug: req.body.title
+            .split(" ")
+            .join("-")
+            .toLowerCase()
+            .replace(/[^A-Za-z0-9-]/g, ""),
+          content: req.body.content,
+          image: req.body.profilePicture,
+          category: req.body.category,
+        },
+      },
+      { new: true }
+    );
+    res.status(201).json({
+      status: "success",
+      data: newPost,
     });
   } catch (err) {
     next(err);

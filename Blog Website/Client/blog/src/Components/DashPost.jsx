@@ -4,7 +4,7 @@ import { Table, Button, Modal } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
-function DashPost() {
+function DashPost({}) {
   const { currentUser } = useSelector((state) => state.user);
   const [userPosts, setUserPosts] = useState([]);
   const [showModal, setShowModal] = useState(false);

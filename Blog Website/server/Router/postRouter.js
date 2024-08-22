@@ -9,5 +9,8 @@ postRouter.route("/get-posts").get(postController.getPosts);
 postRouter
   .route("/delete-posts/:postId/:userId")
   .delete(verifyUser, postController.deletePost);
+postRouter
+  .route("/update-posts/:postId/:userId")
+  .patch(verifyUser, postController.updatePost);
 
 module.exports = postRouter;
