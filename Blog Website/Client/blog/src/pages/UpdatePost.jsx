@@ -9,7 +9,7 @@ import {
   Alert,
   Spinner,
 } from "flowbite-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { app } from "./../firebase";
 import { CircularProgressbar } from "react-circular-progressbar";
 import {
@@ -19,12 +19,14 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function UpdatePost() {
+  const { currentUser } = useSelector((state) => state.user);
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState(null);
-  const [formData, setForm] = useState({});
+  const [formData, setFormData] = useState({});
   const [ImageFileUploadProgress, setImageFileUploadProgress] = useState(null);
   const [imageFileUploadError, setImageFileUploadError] = useState(null);
   const [imageFileUploading, setImageFileUploading] = useState(false);
@@ -32,24 +34,24 @@ function UpdatePost() {
   const [dataLoading, setDataLoading] = useState(false);
   const [dataSuccess, setDataSuccess] = useState(false);
   const { postId } = useParams();
-  console.log(formData);
+
   useEffect(() => {
     try {
-      setPublishError(data.message);
-      const updatePost = async () => {
-        const res = await fetch(`/api/post/update-post?postId=/${postId}`);
-        const data = await res.json();
+      const fetchPost = async () => {
+        const response = await fetch(`/api/post/get-posts?postId=${postId}`);
+        const res = await response.json();
 
-        if (res.ok) {
-          setForm(data);
-          setPublishError(data.posts[0]);
+        if (response.ok) {
+          setPublishError(null);
+          setFormData(res.data.posts[0]);
+          console.log(res.data.posts[0]);
         } else {
-          console.log(data.message);
-          setPublishError(data.message);
+          console.log(res.message);
+          setPublishError(res.message);
           return;
         }
       };
-      updatePost();
+      fetchPost();
     } catch (err) {
       console.log(err.message);
     }
@@ -59,18 +61,22 @@ function UpdatePost() {
     try {
       setDataSuccess(false);
       setDataLoading(true);
-      const res = await fetch("/api/post/create-post", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
+
+      const response = await fetch(
+        `/api/post/update-posts/${formData._id}/${currentUser.data._id}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
+      const res = await response.json();
       setDataLoading(false);
-      if (!res.ok) {
-        setPublishError(data.message);
+      if (!response.ok) {
+        setPublishError(res.message);
       } else {
         setDataSuccess(true);
-        navigate(`/post/${data.post.slug}`);
+        navigate(`/post/${res.data.slug}`);
         setPublishError(null);
       }
     } catch (err) {
@@ -109,7 +115,7 @@ function UpdatePost() {
             setImageFileUploadProgress(null);
             setImageFileUploadError(null);
             setImageFileUploading(false);
-            setForm({ ...formData, imageUrl: downloadImageUrl });
+            setFormData({ ...formData, imageUrl: downloadImageUrl });
           });
         }
       );
@@ -119,10 +125,10 @@ function UpdatePost() {
     }
   };
   const handleChange = (e) => {
-    setForm({ ...formData, [e.target.id]: e.target.value });
+    setFormData({ ...formData, [e.target.id]: e.target.value });
   };
   return (
-    <div className="p-3 min-h-screen mx-auto min-w-7">
+    <div className="p-3 min-h-screen mx-auto min-w-4xl">
       <h1 className="text-center text-3xl font-bold my-7">Update a Post</h1>
       <form
         className="text-center flex flex-col gap-4"
@@ -135,6 +141,7 @@ function UpdatePost() {
             className="flex-1"
             placeholder="Title"
             onChange={handleChange}
+            value={formData.title}
             required
           ></TextInput>
           <Select
@@ -157,7 +164,6 @@ function UpdatePost() {
               setFile(e.target.files[0]);
               setImageFileUploadError(null);
             }}
-            value={formData.title}
             className="flex-1"
           ></FileInput>
           <Button
@@ -194,16 +200,20 @@ function UpdatePost() {
           placeholder="Write Something..."
           value={formData.content}
           onChange={(value) => {
-            setForm({ ...formData, content: value });
+            setFormData({ ...formData, content: value });
           }}
         />
-        <Button className="w-full" type="submit" gradientDuoTone="purpleToPink">
+        <Button
+          className="w-full mb-3"
+          type="submit"
+          gradientDuoTone="purpleToPink"
+        >
           {dataLoading && (
             <Spinner
               className="mx-3"
-              size={"md"}
+              size={"sm"}
               color="info"
-              aria-label="Info spinner example"
+              aria-label="Info spinner example "
             />
           )}
           Update Post

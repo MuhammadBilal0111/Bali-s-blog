@@ -19,7 +19,7 @@ const postSchema = mongoose.Schema(
       type: String,
       default: "uncategorized",
     },
-    image: {
+    imageUrl: {
       type: String,
       default:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6GfPQdX1AeKTOmxRmHHqfmidqMV-mZn2izw&s",
