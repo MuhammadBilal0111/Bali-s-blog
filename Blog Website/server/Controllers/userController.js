@@ -81,3 +81,43 @@ exports.deleteUser = async (req, res, next) => {
     next(err);
   }
 };
+exports.getUsers = async (req, res, next) => {
+  if (req.user.role !== "admin") {
+    return next(
+      new CustomErrors("You are not allowed to see all the users", 403)
+    );
+  }
+  const startIndex = req.query.startIndex * 1 || 0;
+  const limit = req.query.limit || 9;
+  const sortDirection = req.query.sort === "asc" ? 1 : -1;
+  try {
+    const dataRetrive = await User.find()
+      .limit(limit)
+      .skip(startIndex)
+      .sort({ createdAt: sortDirection });
+    const usersWithoutPassword = dataRetrive.map((obj) => {
+      const { password, ...rest } = obj._doc;
+      return rest;
+    });
+    const totalUsers = await User.countDocuments();
+    const now = new Date();
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDate()
+    );
+    const lastMonthUsers = await User.countDocuments({
+      createdAt: { $gte: oneMonthAgo },
+    });
+    res.status(200).json({
+      status: "success",
+      data: {
+        users: usersWithoutPassword,
+        totalUsers,
+        lastMonthUsers,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};

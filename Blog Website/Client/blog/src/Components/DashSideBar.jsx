@@ -66,6 +66,18 @@ function DashSidebar() {
               </Sidebar.Item>
             </Link>
           )}
+          {currentUser.data.role === "admin" && (
+            <Link to="/dashboard?tab=users">
+              <Sidebar.Item
+                active={tab === "users"}
+                icon={HiDocumentText}
+                labelColor="dark"
+                as="div"
+              >
+                Users
+              </Sidebar.Item>
+            </Link>
+          )}
           <Link to={"/signout"}>
             <Sidebar.Item
               icon={HiArrowSmRight}

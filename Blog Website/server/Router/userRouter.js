@@ -9,5 +9,7 @@ userRouter
 userRouter
   .route("/delete/:userId")
   .delete(verifyUser, userController.deleteUser);
+userRouter.route("/get-users").get(verifyUser, userController.getUsers);
 userRouter.route("/signout/:userId").post(verifyUser, userController.signOut);
+
 module.exports = userRouter;
