@@ -160,7 +160,7 @@ function DashPost() {
           </>
         ) : (
           <div>
-            <h1 className="text-center text-gray-200 text-lg ">
+            <h1 className="text-center dark:text-gray-200 text-gray-900 font-bold text-2xl py-3 ">
               There is no post
             </h1>
           </div>
