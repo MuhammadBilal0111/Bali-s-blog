@@ -98,7 +98,7 @@ function DashUsers() {
                     <Table.Cell>
                       <img
                         src={user.profilePicture}
-                        className="rounded-full object-cover h-12 w-12 bg-gray-500"
+                        className="rounded-full object-cover h-12 w-12 self-center mx-auto bg-gray-500"
                         alt={user.username}
                       />
                     </Table.Cell>
@@ -106,9 +106,9 @@ function DashUsers() {
                     <Table.Cell>{user.email}</Table.Cell>
                     <Table.Cell>
                       {user.role === "admin" ? (
-                        <FaCheck className="text-green-500 text-lg" />
+                        <FaCheck className="self-center mx-auto text-green-500 text-lg" />
                       ) : (
-                        <ImCross className="text-red-600 text-lg" />
+                        <ImCross className=" text-red-600 text-lg" />
                       )}
                     </Table.Cell>
                     <Table.Cell>
