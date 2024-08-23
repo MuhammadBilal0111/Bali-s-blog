@@ -69,7 +69,9 @@ exports.signOut = async (req, res, next) => {
 };
 exports.deleteUser = async (req, res, next) => {
   if (req.user.role === "admin" && req.params.userId !== String(req.user._id)) {
-    return next(new CustomErrors("You are not allowed to delete the account",403));
+    return next(
+      new CustomErrors("You are not allowed to delete the account", 403)
+    );
   }
   try {
     await User.findByIdAndDelete(req.params.userId);
@@ -116,6 +118,23 @@ exports.getUsers = async (req, res, next) => {
         totalUsers,
         lastMonthUsers,
       },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+exports.getUser = async (req, res, next) => {
+  const userId = req.params.userId;
+  console.log(userId);
+  try {
+    const data = await User.findById(userId);
+    if (!data) {
+      return next(new CustomErrors("User not found", 404));
+    }
+    const { password, ...rest } = data._doc;
+    res.status(200).json({
+      status: "success",
+      user: rest,
     });
   } catch (err) {
     next(err);
