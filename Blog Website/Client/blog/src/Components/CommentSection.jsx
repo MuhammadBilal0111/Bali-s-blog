@@ -1,17 +1,45 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Textarea, Button } from "flowbite-react";
+import { Textarea, Button, Alert } from "flowbite-react";
+import { Spinner } from "flowbite-react";
 
 function CommentSection({ postId }) {
   const [comments, setComments] = useState("");
+  const [commentsError, setCommentError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
   const handleOnChangeText = (e) => {
     setComments(e.target.value);
   };
-  const handleSubmitForm=async (e)=>{
-    
-  }
+  const handleSubmitForm = async (e) => {
+    e.preventDefault();
+    if (comments.length > 200) {
+      return;
+    }
+    try {
+      setLoading(true);
+      setCommentError(false);
+      const res = await fetch("/api/comment/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: currentUser.data._id,
+          postId,
+          content: comments,
+        }),
+      });
+      const data = await res.json();
+      console.log(data);
+      setLoading(false);
+      if (res.ok) {
+        setComments("");
+        setCommentError(null);
+      }
+    } catch (err) {
+      setCommentError(err.message);
+    }
+  };
   return (
     <div className="max-w-2xl w-full mx-auto">
       {currentUser ? (
@@ -41,7 +69,10 @@ function CommentSection({ postId }) {
         </div>
       )}
       {currentUser && (
-        <form onSubmit={handleSubmitForm} className="border border-6 p-4 rounded-xl border-teal-500">
+        <form
+          onSubmit={handleSubmitForm}
+          className="border border-6 p-4 rounded-xl border-teal-500"
+        >
           <Textarea
             id="comment"
             placeholder="Leave a comment..."
@@ -55,10 +86,20 @@ function CommentSection({ postId }) {
             <p className="text-sm text-gray-600">
               {200 - comments.length} letters remaining
             </p>
-            <Button type="submit" gradientDuoTone="purpleToPink" outline>
-              Submit
+            <Button
+              type="submit"
+              className="min-w-24 flex items-center justify-center"
+              gradientDuoTone="purpleToPink"
+              outline
+            >
+              {loading ? <Spinner size="sm" /> : "Submit"}
             </Button>
           </div>
+          {commentsError && (
+            <Alert color="failure" className="mt-5">
+              {commentsError}
+            </Alert>
+          )}
         </form>
       )}
     </div>
