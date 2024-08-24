@@ -16,5 +16,7 @@ commentRouter
 commentRouter
   .route("/editComment/:commentId")
   .put(verifyUser, commentController.editComment);
-
+commentRouter
+  .route("/deleteComment/:commentId")
+  .delete(verifyUser, commentController.deleteComment);
 module.exports = commentRouter;
