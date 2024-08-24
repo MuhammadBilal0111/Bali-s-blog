@@ -5,6 +5,7 @@ import { Textarea, Button, Alert, Modal, Spinner } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import Comment from "./Comment";
 import { useNavigate } from "react-router-dom";
+
 function CommentSection({ postId }) {
   const navigate = useNavigate();
   const [comment, setComment] = useState("");
@@ -105,6 +106,7 @@ function CommentSection({ postId }) {
         setComments(
           comments.filter((comment) => comment._id !== commentToDelete)
         );
+        setCommentToDelete(null);
         setShowModal(false);
       }
     } catch (err) {

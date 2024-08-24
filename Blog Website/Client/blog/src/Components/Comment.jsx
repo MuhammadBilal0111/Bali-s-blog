@@ -44,9 +44,7 @@ function Comment({ comment, onLike, onEdit, onDelete }) {
       console.log(err.message);
     }
   };
-  const handleDeleteComment = async (comment) => {
-    
-  };
+  
   return (
     <>
       <div className="flex gap-4 p-4 border-b dark:border-gray-600 my-5">

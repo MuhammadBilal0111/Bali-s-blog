@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "flowbite-react";
 function PostCard({ post }) {
   return (
-    <div className="group border border-teal-500 rounded-lg sm:w-[430px] h-[360px] hover:border-2 overflow-hidden transition-all">
+    <div className="group border border-teal-500 rounded-lg sm:w-[380px] h-[360px] hover:border-2 overflow-hidden transition-all">
       <Link to={`/post/${post.slug}`}>
         <img
           src={post.imageUrl}
