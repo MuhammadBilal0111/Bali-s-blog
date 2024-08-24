@@ -3,9 +3,9 @@ import React from "react";
 function About() {
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="flex flex-col gap-8 max-w-4xl mx-auto p-3 my-7 max-h-full">
+      <div className="flex flex-col gap-8 max-w-4xl mx-auto p-3 my-3 max-h-full">
         <div>
-          <h1 className="font-bold text-4xl lg:text-6xl  text-center my-4">
+          <h1 className="font-bold text-4xl lg:text-6xl  text-center my-3">
             About Bali's blog
           </h1>
         </div>
