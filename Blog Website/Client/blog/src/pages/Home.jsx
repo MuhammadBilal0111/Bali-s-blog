@@ -43,7 +43,7 @@ function Home() {
         {posts && posts.length > 0 && (
           <div className="flex flex-col gap-4">
             <h2 className="text-2xl font-semibold text-center">Recent Posts</h2>
-            <div className="flex flex-wrap gap-3 px-2 w-full">
+            <div className="flex justify-center flex-wrap gap-3 px-2 w-full">
               {posts.map((post) => (
                 <PostCard key={post._id} post={post} />
               ))}
