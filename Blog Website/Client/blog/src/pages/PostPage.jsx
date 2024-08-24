@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { Spinner, Button } from "flowbite-react";
 import CallToAction from "../Components/CallToAction";
 import CommentSection from "./../Components/CommentSection";
-
+import RecentArticle from "../Components/RecentArticle";
 function PostPage() {
   const { postSlug } = useParams();
   const [loading, setLoading] = useState(true);
@@ -33,7 +33,7 @@ function PostPage() {
   }, [postSlug]);
   if (loading) {
     return (
-      <div className="">
+      <div className="my-24">
         <div className="flex  justify-center items-center">
           <Spinner size="xl"></Spinner>
         </div>
@@ -74,6 +74,7 @@ function PostPage() {
       </div>
       <div className="">
         <CommentSection postId={post && post._id} />
+        <RecentArticle />
       </div>
     </div>
   );
