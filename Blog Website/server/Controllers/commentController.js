@@ -36,3 +36,50 @@ exports.getComments = async (req, res, next) => {
     next(err);
   }
 };
+exports.likeComment = async (req, res, next) => {
+  console.log(req.params.commentId);
+  try {
+    const comment = await Comment.findById(req.params.commentId);
+    if (!comment) {
+      return next(new CustomErrors("Comment not found", 404));
+    }
+    const userIndex = comment.likes.indexOf(req.user.id);
+    if (userIndex === -1) {
+      comment.likes.push(req.user.id);
+      comment.numOfLikes++;
+    } else {
+      comment.likes.splice(userIndex, 1);
+      comment.numOfLikes--;
+    }
+    await comment.save();
+    res.status(201).json({
+      status: "success",
+      comment,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.editComment = async (req, res, next) => {
+  try {
+    const comment = await Comment.findById(req.params.commentId);
+    if (!comment) {
+      return next(new CustomErrors("Comment not found", 404));
+    }
+    if (comment.userId !== req.user.id && req.user.role !== "admin") {
+      return next(new CustomErrors("You are not allowed to edit the comment"));
+    }
+    const editedComment = await Comment.findByIdAndUpdate(
+      req.params.commentId,
+      { content: req.body.content },
+      { new: true }
+    );
+    res.status(200).json({
+      status: "success",
+      editedComment,
+    });
+  } catch (err) {
+    next(err);
+  }
+};

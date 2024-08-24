@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import { Textarea, Button, Alert } from "flowbite-react";
 import { Spinner } from "flowbite-react";
 import Comment from "./Comment";
+
 function CommentSection({ postId }) {
-  console.log(postId);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [commentsError, setCommentError] = useState(null);
@@ -32,22 +32,29 @@ function CommentSection({ postId }) {
         }),
       });
       const data = await res.json();
-      console.log(data);
       setLoading(false);
       if (res.ok) {
         setComment("");
         setCommentError(null);
+        setComments([data.comment, ...comments]);
       }
     } catch (err) {
       setCommentError(err.message);
     }
   };
+  const handleEdit = async (comment, editedContent) => {
+    setComments(
+      comments.map((c) =>
+        c._id === comment._id ? { ...comment, content: editedContent } : c
+      )
+    );
+  };
+  console.log(comments);
   useEffect(() => {
     const getComments = async () => {
       try {
         const res = await fetch(`/api/comment/get-comments/${postId}`);
         const data = await res.json();
-        console.log(data);
         if (res.ok) {
           setComments(data.comments);
         }
@@ -57,6 +64,32 @@ function CommentSection({ postId }) {
     };
     getComments();
   }, [postId]);
+  const handleLikes = async (commentId) => {
+    try {
+      const res = await fetch(`/api/comment/likeComment/${commentId}`, {
+        method: "PUT",
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setComments(
+          comments.map((comment) =>
+            comment._id === commentId
+              ? {
+                  ...comment,
+                  numOfLikes: data.comment.likes.length,
+                  likes: data.comment.likes,
+                }
+              : comment
+          )
+        );
+        console.log(comments);
+      } else {
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   return (
     <div className="max-w-2xl w-full mx-auto">
       {currentUser ? (
@@ -120,7 +153,7 @@ function CommentSection({ postId }) {
         </form>
       )}
       {comments.length === 0 ? (
-        <h1 className="text-lg text-gray-800 font-bold text-center my-4 ">
+        <h1 className="text-lg dark:text-gray-200 text-gray-800 font-bold text-center my-4 ">
           There are no comments yet!!
         </h1>
       ) : (
@@ -131,8 +164,13 @@ function CommentSection({ postId }) {
               {comments.length}
             </div>
           </div>
-          {comments.map((comment) => (
-            <Comment key={comment._id} comment={comment}></Comment>
+          {comments.map((com) => (
+            <Comment
+              key={comment._id}
+              comment={com}
+              onLike={handleLikes}
+              onEdit={handleEdit}
+            ></Comment>
           ))}
         </>
       )}

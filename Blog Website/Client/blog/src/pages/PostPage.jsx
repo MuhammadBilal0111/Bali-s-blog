@@ -51,7 +51,7 @@ function PostPage() {
         className="text-center p-4 text-blue-600 font-semibold hover:underline mx-auto self-center"
       >
         <Button color="gray" pill>
-          {post.category}
+          {post && post.category}
         </Button>
       </Link>
       <img
@@ -73,7 +73,7 @@ function PostPage() {
         <CallToAction />
       </div>
       <div className="">
-        <CommentSection postId={post._id} />
+        <CommentSection postId={post && post._id} />
       </div>
     </div>
   );

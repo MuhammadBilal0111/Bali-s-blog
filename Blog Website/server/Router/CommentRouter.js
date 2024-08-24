@@ -1,9 +1,20 @@
 const express = require("express");
 const commentController = require("./../Controllers/commentController");
 const verifyUser = require("./../Utils/verifyUser");
-const postRouter = express.Router();
+const commentRouter = express.Router();
 
-postRouter.route("/create").post(verifyUser, commentController.createComment);
-postRouter.route("/get-comments/:postId").get(commentController.getComments);
+commentRouter
+  .route("/create")
+  .post(verifyUser, commentController.createComment);
+commentRouter
+  .route("/get-comments/:postId")
+  .get(verifyUser, commentController.getComments);
 
-module.exports = postRouter;
+commentRouter
+  .route("/likeComment/:commentId")
+  .put(verifyUser, commentController.likeComment);
+commentRouter
+  .route("/editComment/:commentId")
+  .put(verifyUser, commentController.editComment);
+
+module.exports = commentRouter;

@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { HR } from "flowbite-react";
+import { FaThumbsUp } from "react-icons/fa";
+
 import moment from "moment";
-function Comment({ comment }) {
+import { useSelector } from "react-redux";
+import { Textarea, Button } from "flowbite-react";
+function Comment({ comment, onLike, onEdit }) {
+  const { currentUser } = useSelector((state) => state.user);
   const [user, setUser] = useState({});
-  console.log(user);
+  const [editing, setEditing] = useState(false);
+  const [editedContent, setEditedContent] = useState(comment.content);
+
   useEffect(() => {
     const getUsers = async () => {
       try {
@@ -18,6 +24,26 @@ function Comment({ comment }) {
     };
     getUsers();
   }, [comment]);
+  const handleEdit = () => {
+    setEditing(true);
+    // setEditedContent(comment.content);
+  };
+  const handleSave = async (comment, editedContent) => {
+    try {
+      const res = await fetch(`/api/comment/editComment/${comment._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: editedContent }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setEditing(false);
+        onEdit(comment, editedContent);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
   return (
     <>
       <div className="flex gap-4 p-4 border-b dark:border-gray-600 my-5">
@@ -37,13 +63,75 @@ function Comment({ comment }) {
               {moment(comment.createdAt).fromNow()}
             </span>
           </div>
-          <p className="text-md text-gray-500 mb-4">{comment.content}</p>
-          <HR />
-          <div className="flex gap-3 items-center text-gray-400">
-            <p>Like</p>
-            <p>Edit</p>
-            <p>Delete</p>
-          </div>
+          {editing ? (
+            <>
+              <Textarea
+                className="w-full resize-none"
+                value={editedContent}
+                onChange={(e) => setEditedContent(e.target.value)}
+              />
+              <div className="flex gap-4 justify-end mt-3 w-full">
+                <Button
+                  type="button"
+                  size="sm"
+                  gradientDuoTone="purpleToPink"
+                  onClick={() => handleSave(comment, editedContent)}
+                >
+                  Send
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  color="white"
+                  outline
+                  onClick={() => setEditing(false)}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className=" text-md text-gray-500 mb-4">{comment.content}</p>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => onLike(comment._id)}
+                  className={`text-gray-300  ${
+                    currentUser &&
+                    comment.likes.includes(currentUser.data._id) &&
+                    "!text-blue-500"
+                  }`}
+                >
+                  <FaThumbsUp className="text-sm" />
+                </button>
+                {console.log(comment)}
+                <p className="cursor-pointer">
+                  {comment.numOfLikes > 0 &&
+                    comment.numOfLikes +
+                      " " +
+                      (comment.numOfLikes === 1 ? "like" : "likes")}
+                </p>
+                {currentUser &&
+                  (currentUser.data.role === "admin" ||
+                    currentUser.data._id === comment.userId) && (
+                    <button
+                      className="cursor-pointer text-gray-300 hover:text-blue-500"
+                      onClick={() => handleEdit(comment._id)}
+                    >
+                      Edit
+                    </button>
+                  )}
+                {currentUser &&
+                  (currentUser.data.role === "admin" ||
+                    currentUser.data._id === comment.userId) && (
+                    <button className="text-gray-300 hover:text-blue-500 cursor-pointer">
+                      Delete
+                    </button>
+                  )}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>
