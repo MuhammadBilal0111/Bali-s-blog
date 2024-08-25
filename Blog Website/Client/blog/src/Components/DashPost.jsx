@@ -87,7 +87,7 @@ function DashPost() {
     }
   };
   return (
-    <div className=" min-w-2xl ">
+    <div className=" max-w-5xl md:mx-auto">
       <div className="table-auto md:mx-auto  p-3 overflow-x-scroll scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-400 dark:scrollbar-track-slate-800 dark:scrollbar-thumb-slate-500 mx-auto ">
         {userPosts.length > 0 && currentUser.data.role === "admin" ? (
           <>

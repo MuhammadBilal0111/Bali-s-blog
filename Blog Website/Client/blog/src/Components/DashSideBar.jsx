@@ -49,7 +49,7 @@ function DashSidebar() {
       <Sidebar.Items>
         <Sidebar.ItemGroup className="flex flex-col gap-2">
           {currentUser && currentUser.data.role === "admin" && (
-            <Link to="/dashboard?tab=dashboard">
+            <Link to={"/dashboard?tab=dashboard" || "/dashboard"}>
               <Sidebar.Item
                 active={tab === "dashboard" || !tab}
                 icon={HiChartPie}

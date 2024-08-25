@@ -100,7 +100,7 @@ function CreatePost() {
     setForm({ ...formData, [e.target.id]: e.target.value });
   };
   return (
-    <div className="p-3 min-h-screen mx-auto min-w-7">
+    <div className="p-3 min-h-screen mx-auto max-w-4xl px-4">
       <h1 className="text-center text-3xl font-bold my-7">Create Post</h1>
       <form
         className="text-center flex flex-col gap-4"
@@ -172,7 +172,7 @@ function CreatePost() {
           {dataLoading && (
             <Spinner
               className="mx-3"
-              size={"md"}
+              size={"sm"}
               color="info"
               aria-label="Info spinner example"
             />
