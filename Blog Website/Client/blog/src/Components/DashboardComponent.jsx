@@ -164,7 +164,7 @@ function DashboardComponent() {
           <div className="flex justify-between font-semibold items-center">
             <h1 className="text-gray-300 text-center">Recent Comments</h1>
             <Button gradientDuoTone="purpleToPink" outline>
-              <Link to="/dashboard?tab=post">See All</Link>
+              <Link to="/dashboard?tab=comments">See All</Link>
             </Button>
           </div>
           <div className="">

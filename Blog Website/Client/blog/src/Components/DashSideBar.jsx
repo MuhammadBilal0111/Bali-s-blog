@@ -95,6 +95,18 @@ function DashSidebar() {
               </Sidebar.Item>
             </Link>
           )}
+          {currentUser.data.role === "admin" && (
+            <Link to="/dashboard?tab=comments">
+              <Sidebar.Item
+                active={tab === "comments"}
+                icon={HiOutlineUserGroup}
+                labelColor="dark"
+                as="div"
+              >
+                Comments
+              </Sidebar.Item>
+            </Link>
+          )}
           <Link to={"/signout"}>
             <Sidebar.Item
               icon={HiArrowSmRight}
