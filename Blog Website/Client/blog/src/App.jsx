@@ -14,6 +14,7 @@ import CreatePost from "./pages/CreatePost";
 import UpdatePost from "./pages/UpdatePost";
 import PostPage from "./pages/PostPage";
 import ScrollToTop from "./Components/ScrollToTop";
+import Search from "./pages/Search";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         </Route>
         <Route path="/projects" element={<Projects />}></Route>
         <Route path="/post/:postSlug" element={<PostPage />}></Route>
+        <Route path="/search" element={<Search />}></Route>
       </Routes>
       <Footer />
     </BrowserRouter>

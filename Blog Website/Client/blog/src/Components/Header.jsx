@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
 import { MdSunny } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -8,14 +8,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "../store/themeSlice";
 import { signOutSuccess, signOutFailure } from "../store/userSlice";
 
-
 function Header() {
   const navigate = useNavigate();
   const [signout, setSignOut] = useState(null);
   const path = useLocation().pathname;
+  const location = useLocation();
   const dispatch = useDispatch();
   const { theme } = useSelector((state) => state.theme);
   const { currentUser } = useSelector((state) => state.user);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
 
   const handleToggleTheme = () => {
     dispatch(toggleTheme());
@@ -47,11 +64,15 @@ function Header() {
         </span>
         Blogs
       </Link>
-      <form action="">
+      <form onSubmit={handleSubmit}>
         <TextInput
           type="text"
           placeholder="Search..."
           rightIcon={FaSearch}
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+          }}
           className="hidden lg:inline"
         />
       </form>
