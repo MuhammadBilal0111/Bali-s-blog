@@ -22,11 +22,7 @@ exports.getComments = async (req, res, next) => {
     const comments = await Comment.find({ postId }).sort({ createdAt: -1 });
     const totalComments = await Comment.countDocuments();
     const now = new Date();
-    const oneMonthAgo = new Date(
-      now.getMonth() - 1,
-      now.getDate(),
-      now.getYear()
-    );
+
     res.status(200).json({
       status: "success",
       comments,
@@ -36,8 +32,43 @@ exports.getComments = async (req, res, next) => {
     next(err);
   }
 };
+exports.getAllComments = async (req, res, next) => {
+  if (req.user.role !== "admin") {
+    return next(
+      new CustomErrors("You are not allowed to get all comments", 403)
+    );
+  }
+  const limit = req.query.limit || 9;
+  const startIndex = req.query.startIndex || 0;
+  const sortDirection = req.query.sort === "asc" ? 1 : -1;
+  try {
+    const dataRetrieve = await Comment.find({})
+      .limit(limit)
+      .skip(startIndex)
+      .sort({ createdAt: sortDirection });
+    const totalComment = await Comment.countDocuments();
+    const now = new Date();
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDate()
+    );
+    const lastMonthComments = await Comment.countDocuments({
+      createdAt: { $gte: oneMonthAgo },
+    });
+    res.status(200).json({
+      status: "success",
+      data: {
+        comments: dataRetrieve,
+        totalComment,
+        lastMonthComments,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
 exports.likeComment = async (req, res, next) => {
-  console.log(req.params.commentId);
   try {
     const comment = await Comment.findById(req.params.commentId);
     if (!comment) {

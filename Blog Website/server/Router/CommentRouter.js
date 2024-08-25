@@ -9,7 +9,9 @@ commentRouter
 commentRouter
   .route("/get-comments/:postId")
   .get(verifyUser, commentController.getComments);
-
+commentRouter
+  .route("/getAllComments")
+  .get(verifyUser, commentController.getAllComments);
 commentRouter
   .route("/likeComment/:commentId")
   .put(verifyUser, commentController.likeComment);
