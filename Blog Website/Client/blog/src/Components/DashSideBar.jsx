@@ -48,6 +48,17 @@ function DashSidebar() {
     <Sidebar className="w-full md:w-56">
       <Sidebar.Items>
         <Sidebar.ItemGroup className="flex flex-col gap-2">
+          <Link to="/dashboard?tab=profile">
+            <Sidebar.Item // item is a link tag <a><a></a></a>
+              active={tab === "profile"}
+              icon={HiUser}
+              label={currentUser.data.role === "admin" ? "Admin" : "User"}
+              labelColor="dark"
+              as="div"
+            >
+              Profile
+            </Sidebar.Item>
+          </Link>
           {currentUser && currentUser.data.role === "admin" && (
             <Link to={"/dashboard?tab=dashboard" || "/dashboard"}>
               <Sidebar.Item
@@ -60,17 +71,6 @@ function DashSidebar() {
               </Sidebar.Item>
             </Link>
           )}
-          <Link to="/dashboard?tab=profile">
-            <Sidebar.Item // item is a link tag <a><a></a></a>
-              active={tab === "profile"}
-              icon={HiUser}
-              label={currentUser.data.role === "admin" ? "Admin" : "User"}
-              labelColor="dark"
-              as="div"
-            >
-              Profile
-            </Sidebar.Item>
-          </Link>
           {currentUser.data.role === "admin" && (
             <Link to="/dashboard?tab=post">
               <Sidebar.Item

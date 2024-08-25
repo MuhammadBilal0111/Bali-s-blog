@@ -21,7 +21,6 @@ exports.getComments = async (req, res, next) => {
     const postId = req.params.postId;
     const comments = await Comment.find({ postId }).sort({ createdAt: -1 });
     const totalComments = await Comment.countDocuments();
-    const now = new Date();
 
     res.status(200).json({
       status: "success",
@@ -38,8 +37,8 @@ exports.getAllComments = async (req, res, next) => {
       new CustomErrors("You are not allowed to get all comments", 403)
     );
   }
-  const limit = req.query.limit || 9;
-  const startIndex = req.query.startIndex || 0;
+  const limit = +req.query.limit || 9;
+  const startIndex = +req.query.startIndex || 0;
   const sortDirection = req.query.sort === "asc" ? 1 : -1;
   try {
     const dataRetrieve = await Comment.find({})
