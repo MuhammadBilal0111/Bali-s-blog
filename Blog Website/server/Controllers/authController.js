@@ -131,3 +131,26 @@ exports.forgetPassword = async (req, res, next) => {
     next(err);
   }
 };
+exports.resetPassword = async (req, res, next) => {
+  const token = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+  try {
+    const user = await User.findOne({
+      passwordResetToken: token,
+      passwordResetTokenExpires: { $gt: Date.now() },
+    });
+    if (!user) {
+      return next(new CustomErrors("Token is invalid or has expired", 400));
+    }
+    user.password = req.body.password;
+    user.confirmPassword = req.body.confirmPassword;
+    user.passwordResetToken = undefined;
+    user.passwordResetTokenExpires = undefined;
+    await user.save();
+    createSendResponse(user, 201, res);
+  } catch (err) {
+    next(err);
+  }
+};
