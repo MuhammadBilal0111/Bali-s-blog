@@ -37,14 +37,14 @@ function SignUp() {
     }
   };
   return (
-    <div className="mt-20">
+    <div className="mt-20 min-h-screen">
       <div className="flex gap-5 items-center px-3  max-w-3xl mx-auto flex-col md:flex-row md:items-center">
         <div className="flex-1">
           <Link
             to={"/"}
             className="whitespace-nowrap font-bold dark:text-white text-5xl"
           >
-            <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-xl text-white">
+            <span className="px-2 py-1 bg-gradient-to-r from-gray-500 to-gray-900 rounded-xl text-white">
               Bali's
             </span>
             Blogs
@@ -110,7 +110,7 @@ function SignUp() {
           </form>
           <div className="flex gap-1 my-3">
             <span>Aleady have an account?</span>
-            <Link to={"sign-in"} className="text-blue-700 hover:underline">
+            <Link to={"/sign-in"} className="text-blue-700 hover:underline">
               Sign in
             </Link>
           </div>

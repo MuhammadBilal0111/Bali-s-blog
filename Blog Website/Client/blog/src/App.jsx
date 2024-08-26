@@ -16,11 +16,14 @@ import PostPage from "./pages/PostPage";
 import ScrollToTop from "./Components/ScrollToTop";
 import Search from "./pages/Search";
 
+
 function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+
       <Header />
+
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/about" element={<About />}></Route>

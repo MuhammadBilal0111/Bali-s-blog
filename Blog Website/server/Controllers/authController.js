@@ -1,6 +1,8 @@
 const User = require("./../Model/userModel");
 const CustomErrors = require("../Utils/CustomErrors");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
+const transporter = require("./../Utils/email.js");
 
 const signToken = (id, role) => {
   return jwt.sign({ id, role }, process.env.SECRET_STR, {
@@ -27,6 +29,16 @@ const generatePassword = () => {
     Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8)
   );
 };
+const sendEmail = async (email, message) => {
+  const mailOptions = {
+    from: "m.bilal0111@gmail.com",
+    to: email,
+    subject: "Password change request received",
+    text: message,
+  };
+  await transporter.sendMail(mailOptions);
+};
+
 exports.signUp = async (req, res, next) => {
   const { username, email, password, confirmPassword } = req.body;
   if (!username || !email || !password || !confirmPassword) {
@@ -77,6 +89,43 @@ exports.googleAuth = async (req, res, next) => {
       });
       const user = await User.create(newUser);
       return createSendResponse(user, 201, res);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+exports.forgetPassword = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return next(
+        new CustomErrors("We cannot find the user with the given email")
+      );
+    }
+    const resetToken = user.createResetPasswordToken();
+    await user.save({ validateBeforeSave: false });
+    console.log(resetToken);
+    const resetUrl = `${req.protocol}://${req.get(
+      "host"
+    )}/api/auth/reset-password/${resetToken}`;
+    const message = `We have received a password reset request. Please use the below link to  reset your password \n\n ${resetUrl}\n\n This password link will be valid only for 10 minutes`;
+    try {
+      await sendEmail(req.body.email, message);
+      res.status(200).json({
+        status: "success",
+        message: "Password reset link sent to the user's email",
+      });
+    } catch (err) {
+      user.passwordResetToken = undefined;
+      user.passwordResetTokenExpires = undefined;
+      user.save({ validateBeforeSave: false });
+      return next(
+        new CustomErrors(
+          "There was an error in sending reset password email! Please try again later" +
+            err,
+          500
+        )
+      );
     }
   } catch (err) {
     next(err);

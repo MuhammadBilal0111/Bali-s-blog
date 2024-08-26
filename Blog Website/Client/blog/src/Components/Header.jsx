@@ -59,7 +59,7 @@ function Header() {
         to={"/"}
         className="self-center whitespace-nowrap font-semibold dark:text-white text-sm sm:text-xl"
       >
-        <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">
+        <span className="px-2 py-1 bg-gradient-to-r  from-gray-500 to-gray-900 rounded-lg text-white">
           Bali's
         </span>
         Blogs
