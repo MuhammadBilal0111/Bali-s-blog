@@ -67,7 +67,7 @@ exports.signIn = async (req, res, next) => {
     }
     createSendResponse(user, 200, res);
   } catch (err) {
-    next(err);
+    next(err.message);
   }
 };
 exports.googleAuth = async (req, res, next) => {
@@ -91,7 +91,7 @@ exports.googleAuth = async (req, res, next) => {
       return createSendResponse(user, 201, res);
     }
   } catch (err) {
-    next(err);
+    next(err.message);
   }
 };
 exports.forgetPassword = async (req, res, next) => {
@@ -104,7 +104,7 @@ exports.forgetPassword = async (req, res, next) => {
     }
     const resetToken = user.createResetPasswordToken();
     await user.save({ validateBeforeSave: false });
-    console.log(resetToken);
+
     const resetUrl = `${req.protocol}://${req.get(
       "host"
     )}/api/auth/reset-password/${resetToken}`;
@@ -128,7 +128,7 @@ exports.forgetPassword = async (req, res, next) => {
       );
     }
   } catch (err) {
-    next(err);
+    next(err.message);
   }
 };
 exports.resetPassword = async (req, res, next) => {
@@ -151,6 +151,6 @@ exports.resetPassword = async (req, res, next) => {
     await user.save();
     createSendResponse(user, 201, res);
   } catch (err) {
-    next(err);
+    next(err.message);
   }
 };

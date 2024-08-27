@@ -43,7 +43,7 @@ function DashProfile() {
   };
   const handleSignOut = async () => {
     try {
-      const res = await fetch(`api/user/signout/${currentUser.data._id}`, {
+      const res = await fetch(`/api/user/signout/${currentUser.data._id}`, {
         method: "POST",
       });
       const data = await res.json();
@@ -59,7 +59,7 @@ function DashProfile() {
     setShowModal(false);
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`api/user/delete/${currentUser.data._id}`, {
+      const res = await fetch(`/api/user/delete/${currentUser.data._id}`, {
         method: "DELETE",
       });
       console.log(res);
@@ -86,7 +86,7 @@ function DashProfile() {
       setUserUpdateSuccess(null);
       setUserUpdateError(null);
       dispatch(updateStart());
-      const res = await fetch(`api/user/update/${currentUser.data._id}`, {
+      const res = await fetch(`/api/user/update/${currentUser.data._id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

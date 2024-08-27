@@ -73,12 +73,12 @@ function Header() {
           onChange={(e) => {
             setSearchTerm(e.target.value);
           }}
-          className="hidden lg:inline"
+          className="hidden md:inline"
         />
+        <Button className="outline-none md:hidden" color={"gray"} pill>
+          <FaSearch />
+        </Button>
       </form>
-      <Button className="outline-none lg:hidden" color={"gray"} pill>
-        <FaSearch />
-      </Button>
       <div className="flex gap-2 md:order-2">
         <Button
           className="lg: outline-none flex items-center justify-center md:mr-7"

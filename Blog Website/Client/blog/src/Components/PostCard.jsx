@@ -12,7 +12,7 @@ function PostCard({ post }) {
         />
       </Link>
       <div className="flex justify-center flex-col relative gap-1 m-3">
-        <h3 className="text-lg font-bold">{post.title}</h3>
+        <h3 className="text-lg font-bold line-clamp-2">{post.title}</h3>
         <span className="text-sm mb-2 italic">{post.category}</span>
         <Link
           to={`/post/${post.slug}`}

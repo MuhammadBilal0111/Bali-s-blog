@@ -109,7 +109,7 @@ function SignIn() {
           </form>
           <div className="flex gap-1 my-3">
             <span>Don't have an account?</span>
-            <Link to={"sign-up"} className="text-blue-600 hover:underline">
+            <Link to={"/sign-up"} className="text-blue-600 hover:underline">
               Sign Up
             </Link>
           </div>
