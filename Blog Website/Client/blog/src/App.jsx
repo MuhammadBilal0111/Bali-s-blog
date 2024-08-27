@@ -15,15 +15,14 @@ import UpdatePost from "./pages/UpdatePost";
 import PostPage from "./pages/PostPage";
 import ScrollToTop from "./Components/ScrollToTop";
 import Search from "./pages/Search";
+import ForgetPassword from "./Components/ForgetPassword";
 
 
 function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-
       <Header />
-
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/about" element={<About />}></Route>
@@ -39,6 +38,8 @@ function App() {
         <Route path="/projects" element={<Projects />}></Route>
         <Route path="/post/:postSlug" element={<PostPage />}></Route>
         <Route path="/search" element={<Search />}></Route>
+        <Route path="/forget-password" element={<ForgetPassword />}></Route>
+        
       </Routes>
       <Footer />
     </BrowserRouter>

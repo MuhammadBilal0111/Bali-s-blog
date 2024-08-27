@@ -121,8 +121,7 @@ exports.forgetPassword = async (req, res, next) => {
       user.save({ validateBeforeSave: false });
       return next(
         new CustomErrors(
-          "There was an error in sending reset password email! Please try again later" +
-            err,
+          "There was an error in sending reset password email! Please try again later",
           500
         )
       );

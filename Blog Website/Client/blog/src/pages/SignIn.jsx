@@ -86,7 +86,7 @@ function SignIn() {
               />
             </div>
             <Link
-              to={"forgetPassword"}
+              to={"/forget-password"}
               className="text-blue-600 hover:underline font-semibold"
             >
               Forget Password
