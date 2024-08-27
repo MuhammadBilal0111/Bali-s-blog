@@ -29,12 +29,99 @@ const generatePassword = () => {
     Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8)
   );
 };
-const sendEmail = async (email, message) => {
+const sendEmail = async (email, message, username) => {
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Reset Your Password - ABA Real Estate</title>
+        <style>
+            body {
+                font-family: 'Times New Roman', sans-serif, Helvetica;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                max-width: 600px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #ffffff;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            .header {
+                text-align: center;
+                padding: 20px;
+            }
+            .title {
+                background-color: #007bff;
+                color: #ffffff;
+                font-size: 24px;
+                font-weight: 600;
+                text-align: center;
+                margin: 20px 0;
+                padding: 10px 0;
+            }
+            .title a {
+                color: #ffffff;
+                text-decoration: none;
+            }
+            .content {
+                padding: 20px;
+                text-align: left;
+                line-height: 1.6;
+            }
+            .button {
+                display: block;
+                width: 200px;
+                margin: 20px auto;
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: #ffffff;
+                text-align: center;
+                text-decoration: none;
+                border-radius: 5px;
+                font-weight: 600;
+                cursor: pointer;
+            }
+            .footer {
+                text-align: center;
+                padding: 20px;
+                font-size: 12px;
+                color: #666666;
+            }
+            a {
+                color: #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="title">
+                <a href="http://127.0.0.1:3000/home">ABA Real Estate</a>
+            </div>
+            <div class="content">
+                <h2>Reset Your Password</h2>
+                <p>Dear ${username},</p>
+                <p>${message}</p>
+                <p>If you did not request a password reset, please ignore this email or contact support if you have questions.</p>
+                <p>Thanks,<br>The ABA Real Estate Team</p>
+            </div>
+            <div class="footer">
+                <p>© Copyright 2024 ABA Real Estates. All Rights Reserved</p>
+            </div>
+        </div>
+    </body>
+    </html>
+  `;
   const mailOptions = {
     from: "m.bilal0111@gmail.com",
     to: email,
     subject: "Password change request received",
     text: message,
+    html: htmlContent,
   };
   await transporter.sendMail(mailOptions);
 };
@@ -107,10 +194,10 @@ exports.forgetPassword = async (req, res, next) => {
 
     const resetUrl = `${req.protocol}://${req.get(
       "host"
-    )}/api/auth/reset-password/${resetToken}`;
+    )}/reset-password/${resetToken}`;
     const message = `We have received a password reset request. Please use the below link to  reset your password \n\n ${resetUrl}\n\n This password link will be valid only for 10 minutes`;
     try {
-      await sendEmail(req.body.email, message);
+      await sendEmail(req.body.email, message, user.username);
       res.status(200).json({
         status: "success",
         message: "Password reset link sent to the user's email",

@@ -10,7 +10,7 @@ const app = express();
 
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(cookieParser()); // for extract cookie from browser
+app.use(cookieParser());
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);

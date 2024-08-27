@@ -60,6 +60,19 @@ const userSlice = createSlice({
       state.currentUser = null;
       state.error = null;
     },
+    resetPasswordStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    resetPasswordFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    resetPasswordSuccess: (state, action) => {
+      (state.loading = false),
+        (state.error = null),
+        (state.currentUser = action.payload);
+    },
   },
 });
 export const {
@@ -74,5 +87,8 @@ export const {
   deleteUseFailure,
   signOutSuccess,
   signOutFailure,
+  resetPasswordStart,
+  resetPasswordFailure,
+  resetPasswordSuccess,
 } = userSlice.actions;
 export default userSlice;

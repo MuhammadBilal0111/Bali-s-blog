@@ -16,7 +16,7 @@ import PostPage from "./pages/PostPage";
 import ScrollToTop from "./Components/ScrollToTop";
 import Search from "./pages/Search";
 import ForgetPassword from "./Components/ForgetPassword";
-
+import ResetPassword from "./Components/ResetPassword";
 
 function App() {
   return (
@@ -39,7 +39,10 @@ function App() {
         <Route path="/post/:postSlug" element={<PostPage />}></Route>
         <Route path="/search" element={<Search />}></Route>
         <Route path="/forget-password" element={<ForgetPassword />}></Route>
-        
+        <Route
+          path="/reset-password/:resetPasswordToken"
+          element={<ResetPassword />}
+        ></Route>
       </Routes>
       <Footer />
     </BrowserRouter>
