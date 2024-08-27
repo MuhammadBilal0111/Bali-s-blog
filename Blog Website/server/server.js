@@ -3,6 +3,7 @@ dotenv.config({ path: "./Config/config.env" });
 const mongoose = require("mongoose");
 const app = require("./app");
 const PORT = process.env.PORT;
+const path = require("path");
 
 mongoose
   .connect(process.env.CONN_STR, {
@@ -14,6 +15,7 @@ mongoose
   .catch(() => {
     console.log("Database has not been connected");
   });
+
 app.listen(PORT, () => {
   console.log("Server has been started on http://localhost:3000");
 });
