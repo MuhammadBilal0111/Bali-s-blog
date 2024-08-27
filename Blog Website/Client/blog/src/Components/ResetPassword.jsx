@@ -13,18 +13,20 @@ function ResetPassword() {
   const { loading, error: errorMessage } = useSelector((state) => state.user);
   const [success, setSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState(null);
-
+  const [failure, setFailure] = useState(false);
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      return dispatch(
-        resetPasswordFailure("Password and Confirm password is not same")
-      );
-    }
+    // if (password !== confirmPassword) {
+    //   return dispatch(
+    //     resetPasswordFailure("Password and Confirm password is not same")
+    //   );
+    // }
     try {
+      setSuccess(false);
+      setFailure(false);
       dispatch(resetPasswordStart());
       const res = await fetch(
         `/api/auth/reset-password/${resetPasswordToken}`,
@@ -35,7 +37,7 @@ function ResetPassword() {
         }
       );
       const data = await res.json();
-      console.log("kyf", data);
+
       if (res.ok) {
         setSuccess(true);
         setSuccessMessage(
@@ -43,9 +45,11 @@ function ResetPassword() {
         );
         dispatch(resetPasswordSuccess(data));
       } else {
+        setFailure(true);
         return dispatch(resetPasswordFailure(data.message));
       }
     } catch (err) {
+      setFailure(true);
       dispatch(resetPasswordFailure(err.message));
     }
   };
@@ -92,7 +96,7 @@ function ResetPassword() {
           </div>
         </div>
       </form>
-      {errorMessage && <Alert color="failure">{errorMessage}</Alert>}
+      {failure && <Alert color="failure">{errorMessage}</Alert>}
       {success && <Alert color="info">{successMessage}</Alert>}
     </div>
   );
