@@ -4,7 +4,7 @@ const postRoutes = require("./Router/postRouter");
 const commentRoutes = require("./Router/CommentRouter");
 const express = require("express");
 const morgan = require("morgan");
-
+const path = require("path");
 const cookieParser = require("cookie-parser");
 const app = express();
 
@@ -15,7 +15,11 @@ app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
+app.use(express.static(path.join(__dirname, "Client/Blog/dist")));
 
+app.use("*", (res, res) => {
+  res.sendFile(path.join(__dirname, "Client", "Blog", "dist", "index.html"));
+});
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server error";
