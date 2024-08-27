@@ -15,8 +15,7 @@ mongoose
   .catch(() => {
     console.log("Database has not been connected");
   });
-const __dirname = path.resolve(); // __dirname get the directory name where the project is available
-console.log(__dirname);
+
 
 app.listen(PORT, () => {
   console.log("Server has been started on http://localhost:3000");
