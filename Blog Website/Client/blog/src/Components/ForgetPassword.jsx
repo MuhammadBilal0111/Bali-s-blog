@@ -34,6 +34,11 @@ function ForgetPassword() {
       setFailureMessage(err.message);
     }
   };
+  const handleChange = (e) => {
+    setFailure(false);
+    setSuccess(false);
+    setEmail(e.target.value);
+  };
   return (
     <div className="min-h-screen flex justify-center flex-col gap-5 p-5 w-full max-w-2xl mx-auto">
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
@@ -53,13 +58,14 @@ function ForgetPassword() {
             placeholder="Enter your email"
             id="email"
             required
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleChange}
           />
           <Button
             gradientDuoTone="purpleToPink"
             outline
             type="submit"
             className="flex justify-center items-center min-w-28"
+            disabled={loading}
           >
             {loading ? <Spinner size="sm" /> : "Submit"}
           </Button>
