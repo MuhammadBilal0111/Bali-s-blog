@@ -16,7 +16,6 @@ This is a full-featured blogging website built using the MERN stack (MongoDB, Ex
 - **Backend:** Node.js, Express.js
 - **Database:** MongoDB
 - **Authentication:** Firebase, Google Authentication, JWT
-- **Hosting:** Vercel
 
 ## Getting Started
 
