@@ -15,7 +15,7 @@ mongoose
   .catch(() => {
     console.log("Database has not been connected");
   });
-
+const __dirname = path.resolve();
 
 app.listen(PORT, () => {
   console.log("Server has been started on http://localhost:3000");
