@@ -71,6 +71,7 @@ function DashSidebar() {
               </Sidebar.Item>
             </Link>
           )}
+
           {currentUser.data.role === "admin" && (
             <Link to="/dashboard?tab=post">
               <Sidebar.Item

@@ -120,8 +120,7 @@ function DashPost() {
                             {new Date(post.createdAt).toLocaleDateString()}
                           </Table.Cell>
                           <Table.Cell>
-                            <Link to={`post/${post.slug}`}>
-                              {console.log(post.imageUrl)}
+                            <Link to={`/post/${post.slug}`}>
                               <img
                                 src={post.imageUrl}
                                 className="object-cover h-14 w-full bg-gray-500"

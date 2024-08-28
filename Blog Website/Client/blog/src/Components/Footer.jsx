@@ -19,7 +19,7 @@ function FooterComp() {
               <span className="px-2 py-1 bg-gradient-to-r from-gray-500 to-gray-900 rounded-lg text-white">
                 Bali's
               </span>
-              Blogs
+              Blog
             </Link>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 mt-6 sm:gap-6">

@@ -36,7 +36,7 @@ const sendEmail = async (email, message, username) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Reset Your Password - ABA Real Estate</title>
+        <title>Reset Your Password - Bali Blog</title>
         <style>
             body {
                 font-family: 'Times New Roman', sans-serif, Helvetica;
@@ -100,17 +100,17 @@ const sendEmail = async (email, message, username) => {
     <body>
         <div class="container">
             <div class="title">
-                <a href="http://127.0.0.1:3000/home">ABA Real Estate</a>
+                <a href="http://127.0.0.1:5173/">Bali's Blog</a>
             </div>
             <div class="content">
                 <h2>Reset Your Password</h2>
                 <p>Dear ${username},</p>
                 <p>${message}</p>
                 <p>If you did not request a password reset, please ignore this email or contact support if you have questions.</p>
-                <p>Thanks,<br>The ABA Real Estate Team</p>
+                <span>Thanks,</span><h2>The Bali's Blog</h2>
             </div>
             <div class="footer">
-                <p>© Copyright 2024 ABA Real Estates. All Rights Reserved</p>
+                <p>© Copyright 2024 Bali's Blog. All Rights Reserved</p>
             </div>
         </div>
     </body>

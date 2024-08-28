@@ -17,7 +17,8 @@ import ScrollToTop from "./Components/ScrollToTop";
 import Search from "./pages/Search";
 import ForgetPassword from "./Components/ForgetPassword";
 import ResetPassword from "./Components/ResetPassword";
-
+import PageNotFound from "./pages/PageNotFound";
+import ProjectsPage from "./pages/ProjectsPage";
 function App() {
   return (
     <BrowserRouter>
@@ -25,6 +26,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />}></Route>
+        <Route path="/home" element={<Home />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/sign-in" element={<SignIn />}></Route>
         <Route path="/sign-up" element={<SignUp />}></Route>
@@ -43,6 +45,8 @@ function App() {
           path="/reset-password/:resetPasswordToken"
           element={<ResetPassword />}
         ></Route>
+        <Route path="/projects" element={<ProjectsPage />}></Route>
+        <Route path="*" element={<PageNotFound />}></Route>
       </Routes>
       <Footer />
     </BrowserRouter>

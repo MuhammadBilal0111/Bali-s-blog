@@ -117,9 +117,14 @@ function CreatePost() {
           ></TextInput>
           <Select id="category" onChange={handleChange} required>
             <option value="uncategorized">Select a category</option>
-            <option value="reactjs">React JS</option>
-            <option value="nextjs">Next JS</option>
-            <option value="javascript">JavaScript</option>
+            <option value="Reactjs">React JS</option>
+            <option value="Nextjs">Next JS</option>
+            <option value="NodeJs">Node JS</option>
+            <option value="JavaScript">JavaScript</option>
+            <option value="SQL">SQL</option>
+            <option value="DBMS">DBMS</option>
+            <option value="CSS">CSS</option>
+            <option value="tailwindCSS">TailwindCSS</option>
           </Select>
         </div>
         <div className="flex gap-4 items-center p-5 border-2 border-dashed">
