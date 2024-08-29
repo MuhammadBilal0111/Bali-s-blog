@@ -26,8 +26,8 @@ function FooterComp() {
             <div>
               <Footer.Title title="About" />
               <Footer.LinkGroup col>
-                <Footer.Link href="#" target="_blank" rel="noopener noreferrer">
-                  100 JS projects
+                <Footer.Link href="/projects" target="_blank" rel="noopener noreferrer">
+                  MERN projects
                 </Footer.Link>
                 <Footer.Link
                   href="/about"
