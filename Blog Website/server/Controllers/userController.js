@@ -84,7 +84,6 @@ exports.deleteUser = async (req, res, next) => {
   }
 };
 exports.getUsers = async (req, res, next) => {
-  console.log("bial");
   if (req.user.role !== "admin") {
     return next(
       new CustomErrors("You are not allowed to see all the users", 403)
@@ -126,7 +125,6 @@ exports.getUsers = async (req, res, next) => {
 };
 exports.getUser = async (req, res, next) => {
   const userId = req.params.userId;
-  console.log(userId);
   try {
     const data = await User.findById(userId);
     if (!data) {

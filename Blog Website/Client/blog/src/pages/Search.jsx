@@ -18,7 +18,6 @@ function Search() {
   useEffect(() => {
     const URLParams = new URLSearchParams(location.search);
     const searchTermFromUrl = URLParams.get("searchTerm");
-    console.log(searchTermFromUrl);
     const categoryFromUrl = URLParams.get("category");
     const sortFromUrl = URLParams.get("sort");
     if (searchTermFromUrl || sortFromUrl || categoryFromUrl) {
@@ -58,7 +57,6 @@ function Search() {
     if (e.target.id === "sort") {
       const order = e.target.value || "desc";
       setSidebarData({ ...sidebarData, sort: order });
-      console.log(e.target.value);
     }
     if (e.target.id === "category") {
       const category = e.target.value || "uncategorize";
@@ -71,9 +69,7 @@ function Search() {
     urlparams.set("searchTerm", sidebarData.searchTerm ? sidebarData.sort : "");
     urlparams.set("sort", sidebarData.sort ? sidebarData.sort : "");
     urlparams.set("category", sidebarData.category ? sidebarData.category : "");
-    console.log(urlparams.toString());
     const searchQuery = urlparams.toString();
-    console.log(searchQuery);
     navigate(`/search?${searchQuery}`);
   };
   const handleShowMore = () => {

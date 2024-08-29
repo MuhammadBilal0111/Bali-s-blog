@@ -2,7 +2,6 @@ const CustomErrors = require("./../Utils/CustomErrors");
 const Post = require("./../Model/postModel");
 
 exports.createPost = async (req, res, next) => {
-  console.log(req.body);
   if (req.user.role === "admin") {
     if (!req.body.title || !req.body.content) {
       return next(new CustomErrors("Please provide all required fields", 400));
@@ -20,7 +19,6 @@ exports.createPost = async (req, res, next) => {
     };
     try {
       const post = await Post.create(newPost);
-      console.log(post);
       res.status(201).json({
         status: "success",
         post,
@@ -38,7 +36,6 @@ exports.getPosts = async (req, res, next) => {
     // $options: lowercase uppercase not important
     // means searching between two places
     //  $or:[title:{$regex:req.query.searchTerm,$options:'i'}]
-    console.log(req.query);
     const startIndex = req.query.startIndex * 1 || 0;
     const limit = req.query.limit * 1 || 9;
     const sortDirection = req.query.order === "asc" ? 1 : -1;
@@ -75,7 +72,6 @@ exports.getPosts = async (req, res, next) => {
       data: { posts, totalPosts, lastMonthPosts },
     });
   } catch (err) {
-    console.log(err);
     return next(new CustomErrors(err, 404));
   }
 };

@@ -21,7 +21,6 @@ function DashUsers() {
         setLoading(true);
         const res = await fetch("/api/user/get-users");
         const response = await res.json();
-        console.log(response);
         setLoading(false);
         if (res.ok) {
           if (response.data.users.length < 9) {
@@ -49,7 +48,6 @@ function DashUsers() {
     try {
       const res = await fetch(`/api/user/get-users?startIndex=${startIndex}`);
       const response = await res.json();
-      // console.log(response.data.posts);
       if (res.ok) {
         setUsers((prevPosts) => [...prevPosts, ...response.data.posts]);
 
@@ -120,7 +118,7 @@ function DashUsers() {
                           {user.role === "admin" ? (
                             <FaCheck className="self-center mx-auto text-green-500 text-lg" />
                           ) : (
-                            <ImCross className=" text-red-600 text-lg" />
+                            <ImCross className=" text-red-600 text-lg self-center mx-auto" />
                           )}
                         </Table.Cell>
                         <Table.Cell>

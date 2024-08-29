@@ -62,7 +62,6 @@ function DashProfile() {
       const res = await fetch(`/api/user/delete/${currentUser.data._id}`, {
         method: "DELETE",
       });
-      console.log(res);
       const data = await res.json();
       if (res.ok) {
         dispatch(deleteUserSuccess());

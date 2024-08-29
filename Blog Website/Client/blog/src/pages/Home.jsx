@@ -48,7 +48,12 @@ function Home() {
                 <PostCard key={post._id} post={post} />
               ))}
             </div>
-            <Link to='/search' className="hover:underline px-2 text-center text-lg font-semibold text-teal-500">View all posts</Link>
+            <Link
+              to="/search"
+              className="hover:underline px-2 text-center text-lg font-semibold text-teal-500"
+            >
+              View all posts
+            </Link>
           </div>
         )}
       </div>

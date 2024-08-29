@@ -44,9 +44,7 @@ function UpdatePost() {
         if (response.ok) {
           setPublishError(null);
           setFormData(res.data.posts[0]);
-          console.log(res.data.posts[0]);
         } else {
-          console.log(res.message);
           setPublishError(res.message);
           return;
         }

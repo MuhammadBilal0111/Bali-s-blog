@@ -48,7 +48,6 @@ function DashComments() {
         `/api/comment/getAllComments?startIndex=${startIndex}`
       );
       const response = await res.json();
-      // console.log(response.data.posts);
       if (res.ok) {
         setComments((prevPosts) => [...prevPosts, ...response.data.posts]);
 

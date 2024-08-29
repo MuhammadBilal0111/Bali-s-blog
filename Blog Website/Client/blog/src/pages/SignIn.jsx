@@ -29,7 +29,6 @@ function SignIn() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      // console.log(data);
       if (data.status === "failed") {
         return dispatch(signInFailure(data.message));
         // setLoading(false);

@@ -51,7 +51,6 @@ function DashPost() {
         `/api/post/get-posts?userId=${currentUser.data._id}&startIndex=${startIndex}`
       );
       const response = await res.json();
-      console.log(response.data.posts);
       if (res.ok) {
         setUserPosts((prevPosts) => [...prevPosts, ...response.data.posts]);
         {
@@ -80,7 +79,6 @@ function DashPost() {
       } else {
         setUserPosts((prev) => {
           // this will make the state up to date
-          console.log(prev);
           return prev.filter((post) => {
             return post._id !== postIdToDelete;
           });
