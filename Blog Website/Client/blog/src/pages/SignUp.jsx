@@ -2,13 +2,18 @@ import { Label, TextInput, Button, Alert, Spinner } from "flowbite-react";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../Components/OAuth";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { useRef } from "react";
 
 function SignUp() {
   const [formData, setFormData] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const passwordInput = useRef();
+  const [showPassword, setShowPassword] = useState(false);
+  const confirmPasswordInput = useRef();
   const navigate = useNavigate();
-
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
@@ -76,21 +81,61 @@ function SignUp() {
             </div>
             <div>
               <Label value="Password" />
-              <TextInput
-                type="password"
-                id="password"
-                onChange={handleChange}
-                placeholder="Password"
-              />
+              <div className="relative">
+                <TextInput
+                  type="password"
+                  id="password"
+                  ref={passwordInput}
+                  onChange={handleChange}
+                  placeholder="Password"
+                />
+                {!showPassword ? (
+                  <FaRegEyeSlash
+                    className="text-gray-200 absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
+                    onClick={() => {
+                      setShowPassword(true);
+                      passwordInput.current.type = "text";
+                    }}
+                  />
+                ) : (
+                  <FaRegEye
+                    className="text-gray-500 absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
+                    onClick={() => {
+                      setShowPassword(false);
+                      passwordInput.current.type = "password";
+                    }}
+                  />
+                )}
+              </div>
             </div>
             <div>
               <Label value="Confirm Password" />
-              <TextInput
-                type="password"
-                id="confirmPassword"
-                onChange={handleChange}
-                placeholder="Confirm Password"
-              />
+              <div className="relative">
+                <TextInput
+                  type="password"
+                  placeholder="Confirm password"
+                  ref={confirmPasswordInput}
+                  id="confirmPassword"
+                  onChange={handleChange}
+                />
+                {!showConfirmPassword ? (
+                  <FaRegEyeSlash
+                    className="text-gray-200 absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
+                    onClick={() => {
+                      setShowConfirmPassword(true);
+                      confirmPasswordInput.current.type = "text";
+                    }}
+                  />
+                ) : (
+                  <FaRegEye
+                    className="text-gray-200 absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
+                    onClick={() => {
+                      setShowConfirmPassword(false);
+                      confirmPasswordInput.current.type = "password";
+                    }}
+                  />
+                )}
+              </div>
             </div>
             <Button
               type="submit"

@@ -4,9 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signInStart, signInSuccess, signInFailure } from "../store/userSlice";
 import OAuth from "../Components/OAuth";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { useRef } from "react";
 
 function SignIn() {
   const dispatch = useDispatch();
+  const passwordInput = useRef();
+  const [showPassword, setShowPassword] = useState(false);
   const { loading, error: errorMessage } = useSelector((state) => state.user);
 
   const [formData, setFormData] = useState({});
@@ -77,12 +81,32 @@ function SignIn() {
             </div>
             <div>
               <Label value="Password" />
-              <TextInput
-                type="password"
-                id="password"
-                onChange={handleChange}
-                placeholder="Password"
-              />
+              <div className="relative">
+                <TextInput
+                  type="password"
+                  id="password"
+                  ref={passwordInput}
+                  onChange={handleChange}
+                  placeholder="Password"
+                />
+                {!showPassword ? (
+                  <FaRegEyeSlash
+                    className="text-gray-200 absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
+                    onClick={() => {
+                      setShowPassword(true);
+                      passwordInput.current.type = "text";
+                    }}
+                  />
+                ) : (
+                  <FaRegEye
+                    className="text-gray-500 absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
+                    onClick={() => {
+                      setShowPassword(false);
+                      passwordInput.current.type = "password";
+                    }}
+                  />
+                )}
+              </div>
             </div>
             <Link
               to={"/forget-password"}
