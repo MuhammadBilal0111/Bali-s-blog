@@ -16,7 +16,11 @@ function CallToAction() {
           className="rounded-tl-xl w-full rounded-bl-none my-4"
           gradientDuoTone={"purpleToPink"}
         >
-          <a href="/google.com" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://www.geeksforgeeks.org/mern-stack-projects/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Learn More
           </a>
         </Button>
