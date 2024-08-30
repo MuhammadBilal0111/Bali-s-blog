@@ -126,7 +126,7 @@ function UpdatePost() {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
   return (
-    <div className="p-3 min-h-screen mx-auto min-w-4xl">
+    <div className="p-3 min-h-screen mx-auto max-w-4xl px-4">
       <h1 className="text-center text-3xl font-bold my-7">Update a Post</h1>
       <form
         className="text-center flex flex-col gap-4"
@@ -149,9 +149,14 @@ function UpdatePost() {
             required
           >
             <option value="uncategorized">Select a category</option>
-            <option value="reactjs">React JS</option>
-            <option value="nextjs">Next JS</option>
-            <option value="javascript">JavaScript</option>
+            <option value="Reactjs">React JS</option>
+            <option value="Nextjs">Next JS</option>
+            <option value="NodeJs">Node JS</option>
+            <option value="JavaScript">JavaScript</option>
+            <option value="SQL">SQL</option>
+            <option value="DBMS">DBMS</option>
+            <option value="CSS">CSS</option>
+            <option value="tailwindCSS">TailwindCSS</option>
           </Select>
         </div>
         <div className="flex gap-4 items-center p-5 border-2 border-dashed">
